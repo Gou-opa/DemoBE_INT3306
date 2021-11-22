@@ -2,8 +2,10 @@ const express = require('express')
 var session = require('express-session');
 const path = require("path");
 const db = require('./models');
-
+var helmet = require('helmet');
+var compression = require('compression')
 const app = express();
+const axios = require("axios")
 app.use(express.json()); // parse requests of content-type - application/json
 app.use(express.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
 app.use(session({
@@ -11,6 +13,9 @@ app.use(session({
     saveUninitialized: false, // don't create session until something stored
     secret: 'Ue1_F1T'
 }));
+
+app.use(helmet())
+app.use(compression())
 
 
 const port = 13131;
