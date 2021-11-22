@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content=
+    "width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+<h1>Hello <%= user.username %></h1>
+<h3>Token <%=auth_token%></h3>
+<h4>Current password <%= user.password %></h4>
+
+<h2>HTML Forms - Session - Model Update</h2>
+<form action="/change-password" method="POST">
+    <label for="password">Old password:</label><br>
+    <input type="password" id="password" name="password" placeholder="Old password"><br><br>
+    <label for="npassword">New password:</label><br>
+    <input type="password" id="npassword" name="npassword" placeholder="New password"><br><br>
+    <input type="submit" value="Submit">
+</form>
+
+<h2>The XMLHttpRequest Object - AJAX - Logout</h2>
+<div id="demo"></div>
+<button type="button" onclick="loadAPI('GET', '/logout?token=<%=auth_token%>', cbAfterLoad)">Logout</button>
+<script>
+    function loadAPI(method, url, cb=(xhttpObj)=>{/*do some thing with this*/}) {
+        var xhttp;
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                /* Holds the status of the XMLHttpRequest.
+                    0: request not initialized
+                    1: server connection established
+                    2: request received
+                    3: processing request
+                    4: request finished and response is ready
+                 */
+                cb(this);
+            }
+        };
+        xhttp.open(method, url, true);
+        xhttp.send();
+    }
+    function cbAfterLoad(xhttp) {
+        document.getElementById("demo").innerHTML = "<p>"+ xhttp.responseText +" <a href='/'>Click here</a> to login again</p>";
+    }
+</script>
+
+</body>
+</html>
